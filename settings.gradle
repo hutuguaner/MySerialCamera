@@ -1,0 +1,2 @@
+include ':app', ':usbSerialExamples', ':usbSerialForAndroid'
+rootProject.name='MySerialCamera'

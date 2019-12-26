@@ -1,0 +1,20 @@
+com.hoho.android.usbserial.examples
+drawable ic_launcher
+id checkBoxDTR
+id checkBoxRTS
+id consoleText
+id demoScroller
+id demoTitle
+id deviceList
+id progressBar
+id progressBarTitle
+id separator
+id separator2
+layout main
+layout serial_console
+string app_name
+string app_title
+string refreshing
+string textBtnDTR
+string textBtnRTS
+xml device_filter
