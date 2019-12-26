@@ -20,13 +20,18 @@ import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.lzq.serialcamera.util.HexDump;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import android_serialport_api.SerialPort;
+import android_serialport_api.SerialPortFinder;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
     private StringBuffer stringBuffer;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     //55 48 01 32 00 02 23
-                    byte[] write = HexDump.hexStringToByteArray("55480132000223");
+                    byte[] write = HexDump.hexStringToByteArray("AA0117040010012C");
                     //byte[] write = new byte[]{0x55,0x48,0x01,0x32,0x00,0x02,0x23};
 
                     String writeStr = HexDump.toHexString(write);
@@ -130,5 +135,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        SerialPortFinder serialPortFinder = new SerialPortFinder();
+        String[] entryValues = serialPortFinder.getAllDevicesPath();
+        for(int i=0;i<entryValues.length;i++){
+            Log.i("hehe"," entryValue: "+entryValues[i]);
+        }
+        /*try {
+            SerialPort serialPort = new SerialPort(new File("/dev/bus/usb/001/005"),115200,0);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i("hehe","找不到改设备文件： "+e.getMessage());
+        }*/
     }
 }

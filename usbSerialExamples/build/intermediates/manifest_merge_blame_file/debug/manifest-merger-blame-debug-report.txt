@@ -19,53 +19,52 @@
 14        android:debuggable="true"
 15        android:icon="@drawable/ic_launcher"
 15-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:10:9-45
-16        android:label="@string/app_name"
+16        android:label="@string/app_name" >
 16-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:11:9-41
-17        android:testOnly="true" >
-18        <activity
-18-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:12:9-29:20
-19            android:name="com.hoho.android.usbserial.examples.DeviceListActivity"
-19-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:13:13-82
-20            android:label="@string/app_name"
-20-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:14:13-45
-21            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-21-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:15:13-77
-22            <intent-filter>
-22-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:16:13-21:29
-23                <action android:name="android.intent.action.MAIN" />
-23-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:17:17-69
-23-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:17:25-66
-24
-25                <category android:name="android.intent.category.DEFAULT" />
-25-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:19:17-76
-25-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:19:27-73
-26                <category android:name="android.intent.category.LAUNCHER" />
-26-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:20:17-77
-26-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:20:27-74
-27            </intent-filter>
-28            <intent-filter>
-28-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:22:13-24:29
-29                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-29-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:23:17-90
-29-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:23:25-87
-30            </intent-filter>
-31
-32            <meta-data
-32-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:26:13-28:57
-33                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-33-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:27:17-79
-34                android:resource="@xml/device_filter" />
-34-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:28:17-54
-35        </activity>
-36        <activity
-36-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:30:9-34:20
-37            android:name="com.hoho.android.usbserial.examples.SerialConsoleActivity"
-37-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:31:13-85
-38            android:label="@string/app_name"
-38-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:32:13-45
-39            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-39-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:33:13-77
-40        </activity>
-41    </application>
-42
-43</manifest>
+17        <activity
+17-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:12:9-29:20
+18            android:name="com.hoho.android.usbserial.examples.DeviceListActivity"
+18-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:13:13-82
+19            android:label="@string/app_name"
+19-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:14:13-45
+20            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+20-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:15:13-77
+21            <intent-filter>
+21-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:16:13-21:29
+22                <action android:name="android.intent.action.MAIN" />
+22-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:17:17-69
+22-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:17:25-66
+23
+24                <category android:name="android.intent.category.DEFAULT" />
+24-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:19:17-76
+24-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:19:27-73
+25                <category android:name="android.intent.category.LAUNCHER" />
+25-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:20:17-77
+25-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:20:27-74
+26            </intent-filter>
+27            <intent-filter>
+27-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:22:13-24:29
+28                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+28-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:23:17-90
+28-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:23:25-87
+29            </intent-filter>
+30
+31            <meta-data
+31-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:26:13-28:57
+32                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+32-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:27:17-79
+33                android:resource="@xml/device_filter" />
+33-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:28:17-54
+34        </activity>
+35        <activity
+35-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:30:9-34:20
+36            android:name="com.hoho.android.usbserial.examples.SerialConsoleActivity"
+36-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:31:13-85
+37            android:label="@string/app_name"
+37-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:32:13-45
+38            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+38-->D:\AndroidStudioProjects\MySerialCamera\usbSerialExamples\src\main\AndroidManifest.xml:33:13-77
+39        </activity>
+40    </application>
+41
+42</manifest>
