@@ -22,6 +22,8 @@ import com.lzq.serialcamera.util.HexDump;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import android_serialport_api.SerialPort;
@@ -32,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private StringBuffer stringBuffer;
 
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,112 +44,108 @@ public class MainActivity extends AppCompatActivity {
         stringBuffer = new StringBuffer();
         textView = findViewById(R.id.tv_log);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
-        UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-        List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
-        if (availableDrivers.isEmpty()) {
-            stringBuffer.append("当前无可用驱动\n");
-            textView.setText(stringBuffer.toString());
-        } else {
-            stringBuffer.append("当前可用驱动：" + availableDrivers.size() + "个\n");
-            textView.setText(stringBuffer.toString());
-            for (UsbSerialDriver driver : availableDrivers) {
-                stringBuffer.append("-------------------------\n");
-                stringBuffer.append("驱动对应端口数量： " + driver.getPorts().size() + "个\n");
-                stringBuffer.append("驱动设备名称： " + driver.getDevice().getDeviceName() + "\n");
-                stringBuffer.append("驱动设备制造商： " + driver.getDevice().getManufacturerName() + "\n");
-                stringBuffer.append("驱动产品名称： " + driver.getDevice().getProductName() + "\n");
-                stringBuffer.append("驱动串口号： " + driver.getDevice().getSerialNumber() + "\n");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    stringBuffer.append("驱动版本： " + driver.getDevice().getVersion() + "\n");
-                }
-                stringBuffer.append("--------------------------\n");
-                textView.setText(stringBuffer.toString());
-            }
 
-            UsbSerialDriver driver = availableDrivers.get(0);
-            UsbDeviceConnection usbDeviceConnection = manager.openDevice(driver.getDevice());
-            if (usbDeviceConnection == null) {
-                stringBuffer.append("open device failed \n");
-                textView.setText(stringBuffer.toString());
-                return;
-            } else {
-                final UsbSerialPort usbSerialPort = driver.getPorts().get(0);
-                try {
-                    usbSerialPort.open(usbDeviceConnection);
-                    usbSerialPort.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
-                    usbSerialPort.setDTR(true);
-                    usbSerialPort.setRTS(true);
-                    stringBuffer.append("open device success \n");
-                    textView.setText(stringBuffer.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    stringBuffer.append("open device exception \n");
-                    textView.setText(stringBuffer.toString());
-                }
-
-                try {
-                    //55 48 01 32 00 02 23
-                    byte[] write = HexDump.hexStringToByteArray("AA0117040010012C");
-                    //byte[] write = new byte[]{0x55,0x48,0x01,0x32,0x00,0x02,0x23};
-
-                    String writeStr = HexDump.toHexString(write);
-                    stringBuffer.append("write data: "+writeStr+"\n");
-                    textView.setText(stringBuffer.toString());
-                    int resultWrite = usbSerialPort.write(write, 2000);
-                    stringBuffer.append("result write: " + resultWrite + "\n");
-                    textView.setText(stringBuffer.toString());
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (true) {
-                                byte[] read = new byte[10];
-                                int resultRead = 0;
-                                try {
-                                    resultRead = usbSerialPort.read(read, 100);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                stringBuffer.append("result read: " + resultRead + "\n");
-                                for (int i = 0; i < read.length; i++) {
-                                    stringBuffer.append(read[i] + " ");
-                                }
-                                stringBuffer.append("\n");
-                                stringBuffer.append("read data: "+HexDump.toHexString(read)+"\n");
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        textView.setText(stringBuffer.toString());
-                                    }
-                                });
-                                SystemClock.sleep(5000);
-                            }
-                        }
-                    }).start();
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    stringBuffer.append("write exception: " + e.getMessage() + "\n");
-                    textView.setText(stringBuffer.toString());
-                }
-            }
-
-
-        }
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        SerialPortFinder serialPortFinder = new SerialPortFinder();
+        /*SerialPortFinder serialPortFinder = new SerialPortFinder();
         String[] entryValues = serialPortFinder.getAllDevicesPath();
+        stringBuffer.append("entry size: "+entryValues.length+"\n");
+        textView.setText(stringBuffer.toString());
         for(int i=0;i<entryValues.length;i++){
-            Log.i("hehe"," entryValue: "+entryValues[i]);
-        }
-        /*try {
-            SerialPort serialPort = new SerialPort(new File("/dev/bus/usb/001/005"),115200,0);
+            stringBuffer.append("entryValue: "+entryValues[i]+"\n");
+            textView.setText(stringBuffer.toString());
+        }*/
+
+
+        try {
+            SerialPort serialPort = new SerialPort(new File("/dev/ttsy1"), 115200, 0);
+            inputStream = serialPort.getInputStream();
+            outputStream = serialPort.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.i("hehe","找不到改设备文件： "+e.getMessage());
-        }*/
+            Log.i("hehe", "找不到改设备文件： " + e.getMessage());
+        }
+
+        writeAndRead();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        writeAndRead();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isDoing = false;
+    }
+
+    private boolean isDoing = false;
+    private int cmdSerialNumber = 0x00;
+
+    private void writeAndRead() {
+        if (isDoing) {
+            return;
+        }
+        isDoing = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isDoing) {
+                    if (cmdSerialNumber > 0x10) {
+                        cmdSerialNumber = 0x00;
+                    }
+
+                    cmdSerialNumber++;
+
+                    byte[] write = new byte[]{(byte) 0xAA, 0x01, (byte) cmdSerialNumber, 0x09};
+                    stringBuffer.append("写命令：" + HexDump.toHexString(write) + "\n");
+                    updateTextview();
+                    try {
+                        //
+                        outputStream.write(write);
+                        outputStream.flush();
+
+                        //
+                        int readCount = 0;
+                        while (readCount == 0) {
+                            readCount = inputStream.available();
+                            SystemClock.sleep(100);
+                        }
+                        stringBuffer.append("可读字节长度：" + readCount + "\n");
+                        updateTextview();
+                        byte[] read = new byte[readCount];
+                        inputStream.read(read);
+                        String readStr = HexDump.toHexString(read);
+                        stringBuffer.append("读到的数据：" + readStr + "\n");
+                        updateTextview();
+                        String tem = readStr.substring(4, readStr.length() - 4);
+                        tem = new String(HexDump.hexStringToByteArray(tem));
+                        stringBuffer.append("读取到的温度：" + tem + "\n");
+                        updateTextview();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < 60; i++) {
+                        if (isDoing) {
+                            SystemClock.sleep(1000);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+
+    private void updateTextview() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText(stringBuffer.toString());
+            }
+        });
     }
 }
